@@ -1,0 +1,15 @@
+<h2>آیتم‌های دسته {{ category }}</h2>
+
+<div *ngFor="let item of items" class="item-box">
+  <div class="item-info">
+    <p>{{ item.name }}</p>
+  </div>
+
+  <div class="item-actions">
+    <button (click)="decrease(item)">–</button>
+    <span>{{ item.count }}</span>
+    <button (click)="increase(item)">+</button>
+  </div>
+</div>
+
+<a class="go-to-cart" routerLink="/cart">رفتن به سبد خرید</a>

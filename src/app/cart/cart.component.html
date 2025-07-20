@@ -1,0 +1,12 @@
+<div class="cart-container">
+  <div *ngFor="let item of items" class="cart-item">
+    <span class="item-name">{{ item }}</span>
+    <div class="qty-controls">
+      <button class="qty-btn" (click)="decrease(item)">-</button>
+      <span class="item-count">{{ itemCounts[item] }}</span>
+      <button class="qty-btn" (click)="increase(item)">+</button>
+    </div>
+  </div>
+
+  <button class="submit-btn" (click)="submitOrder()">ثبت و ادامه</button>
+</div>

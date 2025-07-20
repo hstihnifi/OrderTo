@@ -1,0 +1,22 @@
+<div class="submit-wrapper">
+  <div class="submit-card">
+    <h2>لیست سفارش‌ها</h2>
+
+    <ul *ngIf="selectedItems.length > 0; else empty">
+      <li *ngFor="let item of selectedItems">
+        {{ item.name }} - تعداد: {{ item.count }}
+      </li>
+    </ul>
+
+    <ng-template #empty>
+      <p>سبد خرید شما خالی است.</p>
+    </ng-template>
+
+    <div class="input-group">
+      <label for="table">شماره میز:</label>
+      <input id="table" [(ngModel)]="tableNumber" placeholder="مثلاً ۵" />
+    </div>
+
+    <button (click)="finalizeOrder()">ثبت نهایی</button>
+  </div>
+</div>

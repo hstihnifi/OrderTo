@@ -1,0 +1,81 @@
+.cart-container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  font-family: 'Vazir', sans-serif;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  direction: rtl; /* اسم آیتم سمت راست */
+}
+
+.item-name {
+  flex: 1;
+  text-align: right;
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+  margin-left: 15px; /* فاصله از دکمه‌ها */
+}
+
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  direction: ltr;
+  min-width: 110px;
+  justify-content: flex-start;
+}
+
+.qty-btn {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  font-size: 20px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.qty-btn:hover {
+  background-color: #0056b3;
+}
+
+.item-count {
+  font-size: 16px;
+  min-width: 25px;
+  text-align: center;
+  font-weight: 700;
+  color: #222;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 12px 0;
+  background-color: #7d47d4;
+  color: white;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #52156e;
+}
