@@ -33,14 +33,26 @@ image: any; name: string, price: number
   ngOnInit(): void {
     const category = this.route.snapshot.paramMap.get('category')!;
     this.category = category;
+    
+    console.log('🔍 Cart component initialized for category:', category);
+    console.log('🌐 API URL will be:', `http://localhost:5000/api/items/?item_type=${category}`);
   
     this.api.getItemsByCategory(category).subscribe({
       next: (res) => {
+        console.log('✅ API Response received:', res);
+        console.log('📦 Number of items:', res?.length || 0);
         this.items = res;
         this.itemCounts = {};
         this.items.forEach(item => this.itemCounts[item.name] = 0);
       },
-      error: (err) => console.error('❌ خطا در دریافت آیتم‌ها:', err)
+      error: (err) => {
+        console.error('❌ خطا در دریافت آیتم‌ها:', err);
+        console.error('🔍 Error details:', {
+          status: err.status,
+          message: err.message,
+          url: err.url || 'No URL in error'
+        });
+      }
     });
   }
   
@@ -65,5 +77,36 @@ image: any; name: string, price: number
 
   goToSubmit() {
     this.router.navigate(['/submit']);
+  }
+
+  testApi() {
+    console.log('🧪 Testing API connection...');
+    
+    // Test the health endpoint first
+    const healthUrl = 'http://localhost:5000/api/health';
+    fetch(healthUrl)
+      .then(response => {
+        console.log('🏥 Health check response status:', response.status);
+        return response.json();
+      })
+      .then(data => {
+        console.log('🏥 Health check data:', data);
+        
+        // Now test the items endpoint
+        const itemsUrl = `http://localhost:5000/api/items/?item_type=${this.category}`;
+        return fetch(itemsUrl);
+      })
+      .then(response => {
+        console.log('📦 Items API response status:', response.status);
+        return response.json();
+      })
+      .then(data => {
+        console.log('📦 Items API data:', data);
+        alert(`API Test Result: Found ${data?.length || 0} items for ${this.category}`);
+      })
+      .catch(error => {
+        console.error('🚨 API Test failed:', error);
+        alert(`API Test Failed: ${error.message}`);
+      });
   }
 }

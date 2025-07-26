@@ -1,6 +1,21 @@
 <div class="cart-container">
   <h2>سبد خرید - {{ category }}</h2>
 
+  <!-- Debug info -->
+  <div style="background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 5px; font-size: 12px;">
+    <strong>Debug Info:</strong><br>
+    Category: {{ category }}<br>
+    Items count: {{ items.length }}<br>
+    <button (click)="testApi()" style="margin-top: 5px;">Test API Connection</button>
+  </div>
+
+  <!-- Show loading or empty state -->
+  <div *ngIf="items.length === 0" style="text-align: center; padding: 20px; background: #fff3cd; border-radius: 5px; margin: 10px 0;">
+    <p>⏳ در حال بارگذاری آیتم‌ها...</p>
+    <p style="font-size: 12px; color: #666;">اگر این پیام مداوم نمایش داده می‌شود، مشکلی در اتصال به سرور وجود دارد.</p>
+  </div>
+
+  <!-- Items list -->
   <div *ngFor="let item of items" class="cart-item">
     <span class="item-name">{{ item.name }} - {{ item.price | number }} تومان</span>
 
@@ -11,5 +26,5 @@
     </div>
   </div>
 
-  <button class="submit-btn" (click)="submitOrder()">افزودن به سبد خرید</button>
+  <button class="submit-btn" (click)="submitOrder()" *ngIf="items.length > 0">افزودن به سبد خرید</button>
 </div>

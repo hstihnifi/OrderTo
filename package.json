@@ -6,9 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "start:backend": "node backend/server.js",
-    "start:both": "concurrently \"npm run start:backend\" \"npm start\""
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {
@@ -22,11 +20,7 @@
     "@angular/router": "^18.2.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.10",
-    "express": "^4.21.2",
-    "sqlite3": "^5.1.6",
-    "cors": "^2.8.5",
-    "concurrently": "^7.6.0"
+    "zone.js": "~0.14.10"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.0",
