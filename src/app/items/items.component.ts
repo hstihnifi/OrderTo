@@ -13,6 +13,7 @@ import { OrderService } from '../services/order.service';
 export class ItemsComponent {
   category = '';
   items: { name: string; count: number }[] = [];
+itemCounts: any;
 
   constructor(
     private route: ActivatedRoute,

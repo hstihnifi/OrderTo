@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { OrderService } from '../services/order.service';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-cart',
@@ -10,44 +11,46 @@ import { OrderService } from '../services/order.service';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css']
 })
-export class CartComponent {
+export class CartComponent implements OnInit {
 
-  goToSubmit() {
-    // اگر می‌خوای بعد از ثبت سفارش بری صفحه submit این کدهارو اجرا کن
-    this.router.navigate(['/home']);
-  }
-  
   category = '';
-  items: string[] = [];
+  items: {
+image: any; name: string, price: number 
+}[] = [];
   itemCounts: Record<string, number> = {};
-
-  allItems: Record<string, string[]> = {
-    'نوشیدنی‌ها': ['قهوه', 'چای', 'لاته'],
-    'دسر': ['کیک شکلاتی', 'بستنی', 'چیزکیک'],
-    'غذا': ['پاستا', 'برگر', 'پیتزا']
-  };
+  apiService: any;
+  item: any;
+  
 
   constructor(
     private route: ActivatedRoute,
     private orderService: OrderService,
     private router: Router,
+    private api: ApiService
     
-  ) {
-    this.route.paramMap.subscribe(params => {
-      this.category = params.get('category') || '';
-      this.items = this.allItems[this.category] || [];
+  ) {}
 
-      this.itemCounts = {};
-      this.items.forEach(item => this.itemCounts[item] = 0);
+  ngOnInit(): void {
+    const category = this.route.snapshot.paramMap.get('category')!;
+    this.category = category;
+  
+    this.api.getItemsByCategory(category).subscribe({
+      next: (res) => {
+        this.items = res;
+        this.itemCounts = {};
+        this.items.forEach(item => this.itemCounts[item.name] = 0);
+      },
+      error: (err) => console.error('❌ خطا در دریافت آیتم‌ها:', err)
     });
   }
+  
 
-  increase(item: string) {
-    this.itemCounts[item]++;
+  increase(itemName: string) {
+    this.itemCounts[itemName]++;
   }
 
-  decrease(item: string) {
-    if (this.itemCounts[item] > 0) this.itemCounts[item]--;
+  decrease(itemName: string) {
+    if (this.itemCounts[itemName] > 0) this.itemCounts[itemName]--;
   }
 
   submitOrder() {
@@ -57,11 +60,10 @@ export class CartComponent {
   
     this.orderService.addItems(selectedItems);
     alert('آیتم‌ها به سبد خرید اضافه شدند!');
-    this.router.navigate(['/']); // بازگشت به home
+    this.router.navigate(['/']);
   }
-  
 
-  
-  
-  
+  goToSubmit() {
+    this.router.navigate(['/submit']);
+  }
 }

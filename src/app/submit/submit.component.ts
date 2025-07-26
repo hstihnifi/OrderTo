@@ -28,9 +28,21 @@ items: any;
       alert('لطفاً شماره میز را وارد کنید.');
       return;
     }
-
-    this.orderService.submitOrder(this.tableNumber);
-    alert('سفارش ثبت شد!');
+  
+    const table = this.tableNumber;
+    const items = this.selectedItems;
+  
+    this.orderService.submitOrder(table, items).subscribe({
+      next: res => {
+        alert('سفارش با موفقیت ثبت شد!');
+        this.selectedItems = [];
+        this.tableNumber = '';
+      },
+      error: err => {
+        alert('خطا در ثبت سفارش.');
+        console.error(err);
+      }
+    });
   }
 }
 
