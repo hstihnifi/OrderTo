@@ -1,15 +1,25 @@
 <div class="cart-container">
-  <h2>سبد خرید - {{ category }}</h2>
+  <h2>آیتم‌های دسته: {{ category }}</h2>
 
-  <div *ngFor="let item of items" class="cart-item">
-    <span class="item-name">{{ item.name }} - {{ item.price | number }} تومان</span>
+  <div *ngIf="items.length === 0">
+    <p>هیچ آیتمی برای این دسته‌بندی یافت نشد.</p>
+  </div>
 
-    <div class="qty-controls">
-      <button class="qty-btn" (click)="decrease(item.name)">-</button>
-      <span class="item-count">{{ itemCounts[item.name] }}</span>
-      <button class="qty-btn" (click)="increase(item.name)">+</button>
+  <div *ngFor="let item of items" class="item-box">
+    <div class="item-info">
+      <p><strong>{{ item.name }}</strong></p>
+      <p>قیمت: {{ item.price }} تومان</p>
+    </div>
+
+    <div class="counter">
+      <button (click)="decrease(item.id)">➖</button>
+      <span>{{ itemCounts[item.id] || 0 }}</span>
+      <button (click)="increase(item.id)">➕</button>
     </div>
   </div>
 
-  <button class="submit-btn" (click)="submitOrder()">افزودن به سبد خرید</button>
+  <hr />
+
+  <button class="submit-button" (click)="submitCart()">افزودن به سبد خرید</button>
 </div>
+

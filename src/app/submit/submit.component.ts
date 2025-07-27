@@ -1,49 +1,46 @@
 import { Component, OnInit } from '@angular/core';
+import { OrderService } from '../services/order.service';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { OrderService } from '../services/order.service';
-import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-submit',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  selector: 'app-submit',
   templateUrl: './submit.component.html',
-  styleUrls: ['./submit.component.css']
+  styleUrls: ['./submit.component.css'],
+  imports: [CommonModule,FormsModule ]
 })
 export class SubmitComponent implements OnInit {
-  selectedItems: { name: string; count: number }[] = [];
-  tableNumber: string = '';
-items: any;
+  selectedItems: { id: number; name: string; count: number }[] = [];
+  tableNumber: number = 1;
 
-  constructor(public orderService: OrderService) {}
+  constructor(private orderService: OrderService, private router: Router) {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.selectedItems = this.orderService.getItems();
-    console.log('سفارشات در submit:', this.selectedItems); // 👈 اینو ببین تو کنسول چیزی میاد؟
+    console.log('📦 آیتم‌های انتخاب‌شده:', this.selectedItems);
   }
+  
 
-  finalizeOrder() {
-    if (!this.tableNumber.trim()) {
-      alert('لطفاً شماره میز را وارد کنید.');
-      return;
-    }
-  
-    const table = this.tableNumber;
-    const items = this.selectedItems;
-  
-    this.orderService.submitOrder(table, items).subscribe({
-      next: res => {
-        alert('سفارش با موفقیت ثبت شد!');
-        this.selectedItems = [];
-        this.tableNumber = '';
+  submitFinalOrder() {
+    const items = this.selectedItems.map(item => ({
+      id: item.id,
+      quantity: item.count
+    }));
+
+    this.orderService.submitOrderToBackend(this.tableNumber, items).subscribe({
+      next: (res) => {
+        console.log('✅ سفارش ثبت شد:', res);
+        this.orderService.clearCart();
+        this.router.navigate(['/']);
       },
-      error: err => {
-        alert('خطا در ثبت سفارش.');
-        console.error(err);
+      error: (err) => {
+        console.error('❌ خطا در ثبت سفارش:', err);
       }
     });
   }
 }
+
 
 

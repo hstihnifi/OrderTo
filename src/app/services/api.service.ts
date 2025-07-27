@@ -10,18 +10,17 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  getAllItems(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/items`);
+  // گرفتن آیتم‌های مرتبط با یک دسته‌بندی
+  getItemsByCategory(category: string): Observable<any> {
+    const url = `${this.baseUrl}/items/?item_type=${category}&size=20&page=1`;
+    return this.http.get<any>(url);
   }
-  
-  getItemsByCategory(category: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/items/?item_type=${category}`);
-  }
-  
-  
-  submitOrder(data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/orders/`, data);
+
+  // اگر هنوز از getAllItems جایی استفاده می‌کنی
+  getAllItems(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/items`);
   }
 }
+
 
 

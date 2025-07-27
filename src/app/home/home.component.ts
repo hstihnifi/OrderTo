@@ -15,6 +15,7 @@ export class HomeComponent {
     { key: 'main_dish', title: 'غذای اصلی' },
     { key: 'dessert', title: 'دسر' }
   ];
+cat: any;
 
   constructor(private router: Router) {}
 
@@ -25,6 +26,7 @@ export class HomeComponent {
   goToSubmit() {
     this.router.navigate(['/submit']);
   }
+  
 }
 
 

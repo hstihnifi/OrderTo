@@ -10,7 +10,8 @@ import { OrderService } from '../services/order.service';
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent {
-  lastOrder: { table: string; items: any[]; } | null;
+  lastOrder: { table: string; items: any[] } | null = null;
+
  
 
   constructor(private orderService: OrderService) {

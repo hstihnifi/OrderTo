@@ -1,60 +1,57 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OrderService {
+  cart: any;
   removeItem(arg0: any) {
     throw new Error('Method not implemented.');
   }
-  private items: { name: string; count: number }[] = [];
-  private _lastOrder: { table: string; items: { name: string; count: number }[] } | null = null;
-  cart: any;
+  
+  private selectedItems: { id: number; name: string; count: number }[] = [];
+
+  private baseUrl = 'http://localhost:5000/api';
+  lastOrder: { table: string; items: any[] } | null = null;
 
   constructor(private http: HttpClient) {}
 
-  private baseUrl = 'http://localhost:5000'; // ← آدرس بک‌اندت
-
-  // 📦 گرفتن دسته‌بندی‌ها
-  getCategories() {
-    return this.http.get<string[]>(`${this.baseUrl}/categories`);
-  }
-
-  // 🍰 گرفتن آیتم‌های یک دسته‌بندی
+  // گرفتن آیتم‌های یک دسته
   getItemsByCategory(category: string) {
-    return this.http.get<{ name: string, price: number }[]>(`${this.baseUrl}/items?category=${category}`);
+    return this.http.get<any>(`${this.baseUrl}/items/?item_type=${category}&size=20&page=1`);
   }
 
-  // 📝 ثبت سفارش در دیتابیس
-  submitOrderToBackend(table: string, items: { name: string, count: number }[]) {
-    return this.http.post(`${this.baseUrl}/orders`, { table, items });
+  // افزودن آیتم یا افزایش تعداد
+  addItem(item: { id: number; name: string }) {
+    const existing = this.selectedItems.find(i => i.id === item.id);
+    if (existing) {
+      existing.count++;
+    } else {
+      this.selectedItems.push({ ...item, count: 1 });
+    }
   }
 
-  // 💾 ذخیره آیتم‌ها در حالت فرانت
-  addItems(newItems: { name: string, count: number }[]) {
-    this.items.push(...newItems);
-    console.log('🧾 آیتم‌ها در OrderService:', this.items);
+  // گرفتن سبد خرید
+  setItems(items: { id: number; name: string; count: number }[]) {
+    this.selectedItems = items;
   }
-
+  
   getItems() {
-    return this.items;
+    return this.selectedItems;
   }
 
-  submitOrder(table: string, items: { name: string; count: number }[]) {
-    return this.http.post('http://localhost:5000/api/orders', {
-      table,
-      items
-    });
-  }
+  // پاک‌کردن سبد خرید
   clearCart() {
-    this.items = [];
+    this.selectedItems = [];
   }
 
-  get lastOrder() {
-    return this._lastOrder;
+  // ارسال سفارش
+  submitOrderToBackend(table_number: number, items: { id: number; quantity: number }[]) {
+    return this.http.post(`${this.baseUrl}/orders/`, { table_number, items });
   }
 }
+
 
 
 
