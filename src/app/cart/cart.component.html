@@ -1,11 +1,21 @@
 <div class="cart-container">
-  <h2>آیتم‌های دسته: {{ category }}</h2>
+  <h2 class="category-title">
+    <span *ngIf="category === 'drink'">نوشیدنی ها</span>
+    <span *ngIf="category === 'dessert'">دسرها</span>
+    <span *ngIf="category === 'main_dish'">غذاهای اصلی</span>
+    <span *ngIf="category !== 'drink' && category !== 'dessert' && category !== 'main_dish'">{{ category }}</span>
+  </h2>
 
   <div *ngIf="items.length === 0">
     <p>هیچ آیتمی برای این دسته‌بندی یافت نشد.</p>
   </div>
 
   <div *ngFor="let item of items" class="item-box">
+    <img 
+    [src]="item.image_url" 
+    alt="{{ item.name }}" 
+    class="item-image"
+  />
     <div class="item-info">
       <p><strong>{{ item.name }}</strong></p>
       <p>قیمت: {{ item.price }} تومان</p>

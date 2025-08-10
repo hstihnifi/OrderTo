@@ -42,6 +42,26 @@
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    direction: rtl;
+    font-family: 'Vazirmatn', 'Vazir', Tahoma, Arial, sans-serif;
+    background: linear-gradient(135deg, #f7f7f7 0%, #e3e6f3 100%);
+  }
+  .content, .left-side, .right-side {
+    direction: rtl;
+    font-family: inherit;
+  }
+  .pill, .pill-group, .divider, .social-links {
+    font-family: inherit;
+  }
+  .pill {
+    border-radius: 2.75rem 0 0 2.75rem;
+    text-align: right;
+  }
+  .content {
+    flex-direction: row-reverse;
+  }
+  .left-side, .right-side {
+    text-align: right;
   }
 
   h1 {

@@ -1,14 +1,16 @@
 <div class="home-container">
-  <h2>دسته‌بندی‌ها</h2>
+  <div class="home-card">
+    <h2 class="welcome-title">خوش آمدید</h2>
 
-  <ul class="category-list">
-    <div *ngFor="let cat of categories" (click)="goToCategory(cat.key)" class="category-box">
-      {{ cat.title }}
+    <div class="categories-section">
+      <div *ngFor="let cat of categories" (click)="goToCategory(cat.key)" class="category-box">
+        {{ cat.title }}
+      </div>
     </div>
-  </ul>
 
-  <hr />
-<button class="final-submit-button" (click)="goToSubmit()">ثبت نهایی سفارش</button>
-
+    <hr class="divider" />
+    
+    <button class="final-submit-button" (click)="goToSubmit()">ثبت نهایی سفارش</button>
+  </div>
 </div>
 
