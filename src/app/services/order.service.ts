@@ -12,7 +12,7 @@ export class OrderService {
   
   private selectedItems: { id: number; name: string; count: number }[] = [];
 
-  private baseUrl = 'http://localhost:5000/api';
+  private baseUrl = 'https://alimento-backend.liara.run/api';
   lastOrder: { table: string; items: any[] } | null = null;
 
   constructor(private http: HttpClient) {}
